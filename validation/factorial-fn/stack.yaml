@@ -1,0 +1,14 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  factorial:
+    lang: python3-http
+    handler: ./factorial
+    image: diti06/factorial:latest
+    labels:
+      com.openfaas.scale.min: "1"
+      com.openfaas.scale.max: "5"
+      com.openfaas.scale.target: "50"
+      com.openfaas.scale.type: rps
