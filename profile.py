@@ -17,40 +17,23 @@ pc.verifyParameters()
 
 request = pc.makeRequestRSpec()
 
-# -------------------------------------------------------
-# LAN 1: Cluster LAN — Master + 3 Workers
-# This is the internal K3s cluster network
-# -------------------------------------------------------
+# Cluster LAN: master + 3 workers (K3s internal network)
 cluster_lan = request.LAN("cluster-lan")
 cluster_lan.best_effort = True
 cluster_lan.vlan_tagging = True
 
-# -------------------------------------------------------
-# LAN 2: API LAN — Master + Measurement Node
-# Measurement node sends load via OpenFaaS gateway API
-# -------------------------------------------------------
+# API LAN: master + measurement node (load test network)
 api_lan = request.LAN("api-lan")
 api_lan.best_effort = True
 api_lan.vlan_tagging = True
 
-# -------------------------------------------------------
-# MASTER NODE
-# - Runs K3s server
-# - Runs OpenFaaS gateway (port 31112)
-# - Connected to BOTH cluster-lan and api-lan
-# -------------------------------------------------------
+# Master node: K3s server + OpenFaaS gateway
+# Connected to both LANs
 master = request.RawPC("master")
 master.hardware_type = params.node_type
 master.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU22-64-STD"
-
-# Master connects to cluster LAN (for workers)
-master_cluster_iface = master.addInterface("if-master-cluster")
-cluster_lan.addInterface(master_cluster_iface)
-
-# Master also connects to API LAN (for measurement node)
-master_api_iface = master.addInterface("if-master-api")
-api_lan.addInterface(master_api_iface)
-
+cluster_lan.addInterface(master.addInterface("if-master-cluster"))
+api_lan.addInterface(master.addInterface("if-master-api"))
 master.addService(rspec.Execute(
     shell="bash",
     command=(
@@ -62,52 +45,34 @@ master.addService(rspec.Execute(
     )
 ))
 
-# -------------------------------------------------------
-# WORKER NODES (3) — Join K3s cluster via cluster-lan
-# Run OpenFaaS function pods (factorial)
-# -------------------------------------------------------
+# Worker nodes: K3s agents, connected only to cluster LAN
 for i in range(3):
     worker = request.RawPC("worker" + str(i))
     worker.hardware_type = params.node_type
     worker.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU22-64-STD"
-
-    worker_iface = worker.addInterface("if-worker" + str(i))
-    cluster_lan.addInterface(worker_iface)
-
+    cluster_lan.addInterface(worker.addInterface("if-worker" + str(i)))
     worker.addService(rspec.Execute(
         shell="bash",
         command=(
             "for i in $(seq 1 120); do "
-            "  ssh -o StrictHostKeyChecking=no master "
-            "  'test -f /tmp/k3s_master_ready' && break ; "
-            "  sleep 10 ; "
-            "done ; "
+            "ssh -o StrictHostKeyChecking=no master "
+            "'test -f /tmp/k3s_master_ready' && break ; "
+            "sleep 10 ; done ; "
             "MASTER_IP=$(ssh -o StrictHostKeyChecking=no master 'cat /tmp/master_ip') ; "
             "K3S_TOKEN=$(ssh -o StrictHostKeyChecking=no master 'cat /tmp/k3s_token') ; "
             "sudo bash /local/repository/multi-node/setup_worker.sh "
-            "\"$MASTER_IP\" \"$K3S_TOKEN\" "
-            "> /tmp/setup_worker.log 2>&1"
+            "\"$MASTER_IP\" \"$K3S_TOKEN\" > /tmp/setup_worker.log 2>&1"
         )
     ))
 
-# -------------------------------------------------------
-# MEASUREMENT NODE
-# - NOT part of K3s cluster
-# - Connects ONLY to api-lan
-# - Runs k6 load tests against master's OpenFaaS gateway
-# - Collects RPS, latency, scaling metrics
-# -------------------------------------------------------
+# Measurement node: runs k6 load tests, connected only to API LAN
 measurement = request.RawPC("measurement")
 measurement.hardware_type = params.node_type
 measurement.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU22-64-STD"
-
-meas_iface = measurement.addInterface("if-measurement-api")
-api_lan.addInterface(meas_iface)
-
+api_lan.addInterface(measurement.addInterface("if-measurement"))
 measurement.addService(rspec.Execute(
     shell="bash",
     command=(
-        # Install k6 load testing tool
         "sudo gpg -k ; "
         "sudo gpg --no-default-keyring "
         "--keyring /usr/share/keyrings/k6-archive-keyring.gpg "
