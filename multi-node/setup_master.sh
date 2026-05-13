@@ -67,7 +67,7 @@ echo "    faas-cli: $(faas-cli version --short-version 2>/dev/null || true)"
 
 # ┌────────────────────────────────────────────────────────────┐
 # │  LAYER 2 — K3s MASTER INIT                                │
-# │                                                            │
+# │                                                           │
 # │  Key difference vs single-node:                           │
 # │  - No extra flags needed; K3s server mode IS the master.  │
 # │  - Token is auto-generated at /var/lib/rancher/k3s/       │
@@ -113,6 +113,7 @@ curl -sfL https://get.k3s.io | \
         --cluster-init
 
 # ── Export KUBECONFIG ──────────────────────────────────────
+
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 sudo chmod 644 /etc/rancher/k3s/k3s.yaml
 grep -qxF 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml' ~/.bashrc \
@@ -142,7 +143,7 @@ echo "${MASTER_IP}" > ~/master_ip.txt
 echo "    Master IP: ${MASTER_IP} (saved to ~/master_ip.txt)"
 
 # ┌────────────────────────────────────────────────────────────┐
-# │  LAYER 3 — OpenFaaS SETUP (identical to single-node)     │
+# │  LAYER 3 — OpenFaaS SETUP (identical to single-node)       │
 # └────────────────────────────────────────────────────────────┘
 echo ""
 echo "══════════════════════════════════════"
@@ -234,7 +235,7 @@ curl -sf -u "admin:${OPENFAAS_PASSWORD}" \
     "${GATEWAY}/system/info" | python3 -m json.tool || true
 
 # ┌────────────────────────────────────────────────────────────┐
-# │  LAYER 4 — FUNCTION DEPLOYMENT                            │
+# │  LAYER 4 — FUNCTION DEPLOYMENT                             │
 # └────────────────────────────────────────────────────────────┘
 echo ""
 echo "══════════════════════════════════════"

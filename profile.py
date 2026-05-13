@@ -8,8 +8,8 @@ pc.defineParameter(
     "node_type",
     "Hardware Node Type",
     portal.ParameterType.NODETYPE,
-    "c220g2",
-    longDescription="CloudLab hardware type. c220g2 recommended."
+    "c6220",
+    longDescription="CloudLab hardware type. c6220 recommended."
 )
 
 params = pc.bindParameters()

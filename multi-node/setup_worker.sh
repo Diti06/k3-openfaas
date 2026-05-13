@@ -32,11 +32,11 @@ echo " Joining master at: ${K3S_URL}"
 echo "======================================================"
 
 # ┌────────────────────────────────────────────────────────────┐
-# │  LAYER 1 — SYSTEM SETUP                                   │
-# │  Workers need Docker only if you plan to build images     │
-# │  here. For pure workers, only containerd (bundled with    │
-# │  K3s) is strictly required. We install Docker anyway      │
-# │  for consistency and potential local debug builds.        │
+# │  LAYER 1 — SYSTEM SETUP                                    │
+# │  Workers need Docker only if you plan to build images      │
+# │  here. For pure workers, only containerd (bundled with     │
+# │  K3s) is strictly required. We install Docker anyway       │
+# │  for consistency and potential local debug builds.         │
 # └────────────────────────────────────────────────────────────┘
 echo ""
 echo "══════════════════════════════════════"
@@ -66,13 +66,13 @@ sleep 3
 echo "    Docker: $(docker --version)"
 
 # ┌────────────────────────────────────────────────────────────┐
-# │  LAYER 2 — K3s AGENT JOIN                                 │
+# │  LAYER 2 — K3s AGENT JOIN                                  │
 # │                                                            │
-# │  Key difference vs master:                                │
-# │  - Mode is "agent" not "server"                           │
-# │  - K3S_URL points to master's API server (port 6443)      │
-# │  - K3S_TOKEN authenticates this node with the master      │
-# │  - Workers do NOT get KUBECONFIG — kubectl runs on master │
+# │  Key difference vs master:                                 │
+# │  - Mode is "agent" not "server"                            │
+# │  - K3S_URL points to master's API server (port 6443)       │
+# │  - K3S_TOKEN authenticates this node with the master       │
+# │  - Workers do NOT get KUBECONFIG — kubectl runs on master  │
 # └────────────────────────────────────────────────────────────┘
 echo ""
 echo "══════════════════════════════════════"

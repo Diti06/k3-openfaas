@@ -23,7 +23,7 @@ echo " K3s Multi-Node — CLUSTER VERIFICATION"
 echo "======================================================"
 
 # ┌────────────────────────────────────────────────────────────┐
-# │  CHECK 1 — All nodes Ready                                │
+# │  CHECK 1 — All nodes Ready                                 │
 # └────────────────────────────────────────────────────────────┘
 echo ""
 echo "── CHECK 1: Node Status ──"
@@ -38,7 +38,7 @@ if [[ "${NODE_COUNT}" -lt 2 ]]; then
 fi
 
 # ┌────────────────────────────────────────────────────────────┐
-# │  CHECK 2 — System pods healthy across all nodes           │
+# │  CHECK 2 — System pods healthy across all nodes            │
 # └────────────────────────────────────────────────────────────┘
 echo ""
 echo "── CHECK 2: System Pods ──"
@@ -46,11 +46,11 @@ kubectl get pods -A -o wide | grep -v "Running\|Completed" || echo "    All pods
 kubectl get pods -A -o wide
 
 # ┌────────────────────────────────────────────────────────────┐
-# │  CHECK 3 — Cross-node pod scheduling smoke test           │
+# │  CHECK 3 — Cross-node pod scheduling smoke test            │
 # │                                                            │
-# │  Deploy a DaemonSet so one pod lands on EVERY node.       │
-# │  This is stronger than a single Deployment for verifying  │
-# │  that workers are accepting workloads.                    │
+# │  Deploy a DaemonSet so one pod lands on EVERY node.        │
+# │  This is stronger than a single Deployment for verifying   │
+# │  that workers are accepting workloads.                     │
 # └────────────────────────────────────────────────────────────┘
 echo ""
 echo "── CHECK 3: Cross-Node Scheduling (DaemonSet smoke test) ──"
@@ -93,7 +93,7 @@ echo "    DaemonSet: ${DS_READY}/${DS_DESIRED} pods ready"
 kubectl delete daemonset smoke-ds 2>/dev/null || true
 
 # ┌────────────────────────────────────────────────────────────┐
-# │  CHECK 4 — OpenFaaS gateway health                        │
+# │  CHECK 4 — OpenFaaS gateway health                         │
 # └────────────────────────────────────────────────────────────┘
 echo ""
 echo "── CHECK 4: OpenFaaS Gateway ──"
@@ -102,7 +102,7 @@ curl -sf -u "admin:${OPENFAAS_PASSWORD}" \
     "${GATEWAY}/system/info" | python3 -m json.tool || true
 
 # ┌────────────────────────────────────────────────────────────┐
-# │  CHECK 5 — Factorial function invocation                  │
+# │  CHECK 5 — Factorial function invocation                   │
 # └────────────────────────────────────────────────────────────┘
 echo ""
 echo "── CHECK 5: Factorial Function ──"
@@ -117,7 +117,7 @@ RESULT2=$(echo "1000" | faas-cli invoke factorial --gateway "${GATEWAY}")
 echo "    Result: ${RESULT2}"
 
 # ┌────────────────────────────────────────────────────────────┐
-# │  CHECK 6 — Show pod placement (which worker ran it?)      │
+# │  CHECK 6 — Show pod placement (which worker ran it?)       │
 # └────────────────────────────────────────────────────────────┘
 echo ""
 echo "── CHECK 6: Function Pod Placement ──"

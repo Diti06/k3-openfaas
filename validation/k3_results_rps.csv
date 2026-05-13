@@ -1,0 +1,200 @@
+0,181.82,0
+2,4663.98,0
+4,6436.71,0
+6,4810.41,0
+8,4869.11,0
+10,4989.91,0
+0,269.24,0
+2,4680.95,0
+4,6364.22,0
+6,4956.31,0
+8,4744.0,0
+10,4954.11,0
+12,4951.36,0
+14,4804.47,0
+16,4857.32,0
+18,4843.62,0
+20,4835.11,0
+22,4808.91,0
+24,4802.21,0
+26,4828.6,0
+28,4811.84,0
+30,4207.12,0
+32,0.0,0
+
+
+Handling connection for 9090
+0,0.0,5,5
+Handling connection for 9090        1.93,2504,5
+2,1291.93,2504,5
+Handling connection for 9090        ing connection for 9090
+4,1238.49,2500,5
+Handling connection for 9090   Handling connection for 9090      217.76,2503,5
+2,1291.93,2504,5
+Handling connection for 9090      236.79,2495,5
+4,1238.49,2500,5
+Handling connection for 9090   Handling connection for 9090    ,1217.76,2503,5
+2,1291.93,2504,5
+Handling connection for 9090    ,1236.79,2495,5
+4,1238.49,2500,5
+Handling connection for 9090   Handling connection for 9090   
+2,1291.93,2504,5
+Handling connection for 9090   
+4,1238.49,2500,5
+Handling connection for 9090  HandHandlinHHHandling connection for 9090
+2,1291.93,2504,5
+Handling connection for 9090
+4,1238.49,2500,5
+Handling connection for 9090
+6,1217.76,2503,5
+Handling connection for 9090
+8,1236.79,2495,5
+Handling connection for 9090
+10,1287.52,2496,5
+Handling connection for 9090
+12,1247.35,2497,5
+Handling connection for 9090
+14,1302.87,2502,5
+Handling connection for 9090
+16,1305.33,2501,5
+Handling connection for 9090
+18,1189.47,2452,5
+Handling connection for 9090
+20,1162.95,2433,5
+Handling connection for 9090
+22,1260.38,2470,5
+Handling connection for 9090
+24,1305.65,2497,5
+Handling connection for 9090
+26,1285.87,2502,5
+Handling connection for 9090
+28,1250.0,2505,5
+Handling connection for 9090
+30,1167.85,2501,5
+Handling connection for 9090
+32,0.0,5,5
+
+
+
+# p90 +p95 + sync factorial #
+No such file or directory
+Handling connection for 9090
+0,13.98,1,1
+Handling connection for 9090
+2,1167.2,2488,5
+Handling connection for 9090
+4,1150.04,2502,5
+Handling connection for 9090
+6,1064.0,2443,5
+Handling connection for 9090
+8,1060.25,2462,5
+Handling connection for 9090
+10,1094.89,2432,5
+Handling connection for 9090
+12,1112.42,2454,5
+Handling connection for 9090
+14,1124.65,2469,5
+Handling connection for 9090
+16,1152.89,2448,5
+Handling connection for 9090
+18,1125.8,2486,5
+Handling connection for 9090
+20,1116.11,2466,5
+Handling connection for 9090
+22,1368.02,2470,5
+Handling connection for 9090
+24,1315.18,2501,5
+Handling connection for 9090
+26,1260.42,2503,5
+Handling connection for 9090
+28,1254.2,2492,5
+Handling connection for 9090
+30,1163.75,2405,5
+
+ TOTAL RESULTS
+
+    checks_total.......: 2242702 1225.507606/s    
+    checks_succeeded...: 91.82%  2059294 out of 2242702
+    checks_failed......: 8.17%   183408 out of 2242702
+
+    ✗ status is 200
+      ↳  91% — ✓ 2059294 / ✗ 183408
+
+    HTTP
+    http_req_duration..............: avg=8.13s min=0s       med=197.51ms max=33.21s p(90)=28.29s p(95)=30s
+      { expected_response:true }...: avg=6.95s min=1.4ms    med=192.34ms max=31.07s p(90)=25.89s p(95)=28.22s
+    http_req_failed................: 8.17%   183408 out of 2242702
+    http_reqs......................: 2242702 1225.507606/s
+
+    EXECUTION
+    iteration_duration.............: avg=8.13s min=157.53µs med=197.69ms max=33.21s p(90)=28.29s p(95)=30s
+    iterations.....................: 2242702 1225.507606/s
+    vus............................: 180     min=5
+                 max=19993
+    vus_max........................: 20000   min=20000             max=20000
+
+    NETWORK
+    data_received..................: 3.0 GB  1.6 MB/s
+    data_sent......................: 283 MB  155 kB/s
+
+
+
+                                                  
+running (30m30.0s), 00000/20000 VUs, 2242702 complete and 0 interrupted iterations                  
+default ✓ [==============] 00000/20000 VUs  30m0s
+
+
+# p50 + p90 + p95 +sync factorial #
+
+$t,$RPS,$CPU,$PODS,$ERRORS,$WORKER_CPU
+Forwarding from 127.0.0.1:9090 -> 9090
+Forwarding from [::1]:9090 -> 9090  
+Handling connection for 9090
+Handling connection for 9090
+0,155.64,377,5,0.0,0
+Handling connection for 9090
+Handling connection for 9090
+2,138.82,298,5,0.0,0
+Handling connection for 9090
+Handling connection for 9090
+4,141.55,304,5,0.0,0
+Handling connection for 9090
+Handling connection for 9090
+6,144.35,308,5,0.0,0
+Handling connection for 9090
+Handling connection for 9090
+8,147.02,308,5,0.0,0
+Handling connection for 9090
+Handling connection for 9090
+10,148.05,311,5,0.0,0
+Handling connection for 9090
+Handling connection for 9090
+12,146.76,308,5,0.0,0
+Handling connection for 9090
+Handling connection for 9090
+14,146.75,309,5,0.0,0
+Handling connection for 9090
+Handling connection for 9090
+16,149.07,308,5,0.0,0
+Handling connection for 9090
+Handling connection for 9090
+18,145.71,309,5,0.0,0
+Handling connection for 9090
+Handling connection for 9090
+20,146.04,310,5,0.0,0
+Handling connection for 9090
+Handling connection for 9090
+22,144.48,308,5,0.0,0
+Handling connection for 9090
+Handling connection for 9090
+24,145.64,301,5,0.0,0
+Handling connection for 9090
+Handling connection for 9090
+26,150.49,307,5,0.0,0
+Handling connection for 9090
+Handling connection for 9090
+28,152.24,318,5,0.0,0
+Handling connection for 9090
+Handling connection for 9090
+30,160.56,341,5,0.0,0
+
