@@ -17,23 +17,16 @@ pc.verifyParameters()
 
 request = pc.makeRequestRSpec()
 
-# Cluster LAN: master + 3 workers (K3s internal network)
-cluster_lan = request.LAN("cluster-lan")
-cluster_lan.best_effort = True
-cluster_lan.vlan_tagging = True
-
-# API LAN: master + measurement node (load test network)
-api_lan = request.LAN("api-lan")
-api_lan.best_effort = True
-api_lan.vlan_tagging = True
+# Shared LAN: master + 3 workers + measurement node
+lan = request.LAN("lan")
+lan.best_effort = True
+lan.vlan_tagging = True
 
 # Master node: K3s server + OpenFaaS gateway
-# Connected to both LANs
 master = request.RawPC("master")
 master.hardware_type = params.node_type
 master.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU22-64-STD"
-cluster_lan.addInterface(master.addInterface("if-master-cluster"))
-api_lan.addInterface(master.addInterface("if-master-api"))
+lan.addInterface(master.addInterface("if-master"))
 master.addService(rspec.Execute(
     shell="bash",
     command=(
@@ -45,12 +38,12 @@ master.addService(rspec.Execute(
     )
 ))
 
-# Worker nodes: K3s agents, connected only to cluster LAN
+# Worker nodes: K3s agents, connected to shared LAN
 for i in range(3):
     worker = request.RawPC("worker" + str(i))
     worker.hardware_type = params.node_type
     worker.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU22-64-STD"
-    cluster_lan.addInterface(worker.addInterface("if-worker" + str(i)))
+    lan.addInterface(worker.addInterface("if-worker" + str(i)))
     worker.addService(rspec.Execute(
         shell="bash",
         command=(
@@ -65,11 +58,11 @@ for i in range(3):
         )
     ))
 
-# Measurement node: runs k6 load tests, connected only to API LAN
+# Measurement node: runs k6 load tests, connected to shared LAN
 measurement = request.RawPC("measurement")
 measurement.hardware_type = params.node_type
 measurement.disk_image = "urn:publicid:IDN+emulab.net+image+emulab-ops:UBUNTU22-64-STD"
-api_lan.addInterface(measurement.addInterface("if-measurement"))
+lan.addInterface(measurement.addInterface("if-measurement"))
 measurement.addService(rspec.Execute(
     shell="bash",
     command=(
